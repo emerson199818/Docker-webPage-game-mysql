@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Juego del Gato</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #panel1 {
+      width: 50%;
+      height: 100vh;
+      background-color: #7C7B7B; /* Color del primer panel */
+      float: left;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #panel1-inner {
+      width: 80%;
+      height: 60%;
+      background-color: #060047; /* Color del panel interno en el panel 1 */
+      position: absolute;
+      top: 20%;
+      left: 10%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    #panel2 {
+      width: 50%;
+      height: 100vh;
+      background-color: #7C7B7B; /* Color del segundo panel */
+      float: left;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #panel2-inner {
+      width: 90%;
+      height: 90%;
+      background-color: #060047; /* Color del panel interno en el panel 2 */
+      position: absolute;
+      top: 5%;
+      left: 5%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #gato {
+      /* Estilos de la imagen */
+      position: absolute;
+    }
+
+    #puntos {
+      font-size: 40px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+    <div id="panel1">
+        
+      <div id="panel1-inner">
+        <h1 style="font-size: 30px; color: #E90064;">AGARRA AL GATO</h1>
+        <p id="mensaje-ganador" style="font-size: 50px; color: #E90064;"></p>
+        <p id="contador-clics" style="font-size: 40px; color: #E90064;">Clics: 0</p>
+        <p id="cronometro" style="font-size: 30px; color: #E90064;">Tiempo restante: 15 segundos</p>
+        <p style="font-size: 20px; color: #E90064;">Presionar 'Escape/Espacio' para reiniciar Juego</p>
+      </div>
+    </div>
+    <div id="panel2">
+      <div id="panel2-inner">
+        <img id="gato" src="cat.jpg" style="width: 200px; height: 200px;" alt="Gato">
+      </div>
+    </div>
+  
+    <script>
+      var puntos = 0;
+      var clics = 0;
+      var tiempoRestante = 15; // Duración del juego en segundos
+      var intervaloCronometro;
+  
+      var puntosElemento = document.getElementById("puntos");
+      var contadorClicsElemento = document.getElementById("contador-clics");
+      var mensajeGanadorElemento = document.getElementById("mensaje-ganador");
+      var cronometroElemento = document.getElementById("cronometro");
+      var gato = document.getElementById("gato");
+      var panel2Inner = document.getElementById("panel2-inner");
+  
+      var imagenesGato = [
+        "cat1.jpg",
+        "cat2.jpg",
+        "cat3.jpg",
+        "cat4.jpg",
+        // Agrega aquí más rutas de imágenes del gato
+      ];
+  
+      // Función para generar un número aleatorio dentro de un rango
+      function generarNumeroAleatorio(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+  
+      // Función para incrementar los puntos, actualizar el marcador y cambiar la posición del gato
+      function tocarGato() {
+        if (clics === 0) {
+        iniciarCronometro();
+        }
+        puntos++;
+        clics++;
+        contadorClicsElemento.textContent = "Clics: " + clics;
+  
+        if (puntos % 5 === 0) {
+          cambiarImagenGato();
+        }
+  
+        cambiarPosicionGato();
+      }
+  
+      // Función para cambiar la imagen del gato por otra imagen de la lista
+      function cambiarImagenGato() {
+        var index = generarNumeroAleatorio(0, imagenesGato.length - 1);
+        var nuevaRutaImagen = imagenesGato[index];
+        gato.src = nuevaRutaImagen;
+      }
+  
+      // Función para cambiar la posición del gato dentro de panel2-inner
+      function cambiarPosicionGato() {
+        var panelWidth = panel2Inner.clientWidth - gato.clientWidth;
+        var panelHeight = panel2Inner.clientHeight - gato.clientHeight;
+        var left = generarNumeroAleatorio(0, panelWidth);
+        var top = generarNumeroAleatorio(0, panelHeight);
+  
+        gato.style.left = left + "px";
+        gato.style.top = top + "px";
+      }
+  
+      // Función para iniciar el cronómetro
+      function iniciarCronometro() {
+      intervaloCronometro = setInterval(actualizarCronometro, 1000);
+    }
+  
+      // Función para detener el cronómetro
+      function detenerCronometro() {
+        clearInterval(intervaloCronometro);
+      }
+  
+      // Función para actualizar el cronómetro y detener el juego cuando se agota el tiempo
+      function actualizarCronometro() {
+        tiempoRestante--;
+        cronometroElemento.textContent = "Tiempo restante: " + tiempoRestante + " segundos";
+  
+        if (tiempoRestante <= 0) {
+          detenerJuego();
+          mensajeGanadorElemento.textContent = "Se acabo el tiempo";
+        }
+      }
+  
+      // Función para detener el juego (desactivar los clics)
+      function detenerJuego() {
+        gato.removeEventListener("click", tocarGato);
+        detenerCronometro();
+      }
+      
+    // Agregar evento click a la imagen del gato
+    gato.addEventListener("click", tocarGato);
+
+    document.addEventListener("keydown", function(event) {
+      if (event.code === "Space") {
+        location.reload();
+      }
+    });
+
+    </script>
+</body>
+</html>
