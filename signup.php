@@ -12,9 +12,9 @@
     $stmt->bindParam(':password', $password);
 
     if ($stmt->execute()) {
-      $message = 'Successfully created new user';
+      $message = 'Cuenta creada correctamente';
     } else {
-      $message = 'Sorry there must have been an issue creating your account';
+      $message = 'Hay problemas al crear la cuenta';
     }
   }
 ?>
@@ -24,11 +24,11 @@
     <meta charset="utf-8">
     <title>SignUp</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
 
-    <?php require 'partials/header.php' ?>
+    <?php require 'header.php' ?>
 
     <?php if(!empty($message)): ?>
       <p> <?= $message ?></p>
