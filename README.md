@@ -54,6 +54,4 @@ USO:
 
    NOTA:
    El login y demás datos de la página hacen llamado al archivo database.php, es requerido para que la página habrá sin errores.
-
-
-
+   Para usar en LAN, simplemente  elimine las parte de la página  php donde dice 'requiere database.php', para land sin base de datos.
