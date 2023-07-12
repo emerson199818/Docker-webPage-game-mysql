@@ -19,7 +19,7 @@
       $_SESSION['user_id'] = $results['id'];
       header("Location: /game.html");
     } else {
-      $message = 'Sorry, those credentials do not match';
+      $message = 'Datos de credenciales no encontrados. ';
     }
   }
 
@@ -31,10 +31,10 @@
     <meta charset="utf-8">
     <title>Login</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <?php require 'partials/header.php' ?>
+    <?php require 'header.php' ?>
 
     <?php if(!empty($message)): ?>
       <p> <?= $message ?></p>
